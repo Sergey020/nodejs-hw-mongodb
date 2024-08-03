@@ -25,6 +25,10 @@ export function setupServer() {
     }),
   );
 
+  app.get('/', (req, res) => {
+    res.send('API is running');
+  });
+
   app.get('/contacts', async (req, res) => {
     const contacts = await getAllcontacts();
     res.status(200).json({
