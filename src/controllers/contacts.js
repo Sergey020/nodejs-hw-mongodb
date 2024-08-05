@@ -1,4 +1,4 @@
-import { deleteContact, getAllcontacts, getContactById, } from '../services/contacts.js';
+import { deleteContact, getAllcontacts, getContactById, updateContact, } from '../services/contacts.js';
 import createHttpError from 'http-errors';
 import { createContact} from '../services/contacts.js';
 
@@ -45,4 +45,18 @@ export const deleteContactController = async (req, res,next)=> {
     throw createHttpError(404, 'Contact not found');
   }
   res.status(202).send();
+};
+
+// eslint-disable-next-line no-unused-vars
+export const pathContactController = async (req, res,next) => {
+const { contactId } = req.params;
+const contact = await updateContact(contactId,req.body);
+if(!contact) {
+  throw createHttpError(404, 'Contact not found');
+}
+res.json({
+  status: 200,
+  message:`Successfully patched a contact`,
+  data: contact.contact,
+});
 };
