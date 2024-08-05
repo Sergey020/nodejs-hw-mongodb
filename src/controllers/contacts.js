@@ -1,5 +1,6 @@
-import { getAllcontacts, getContactById } from '../services/contacts.js';
+import { getAllcontacts, getContactById, } from '../services/contacts.js';
 import createHttpError from 'http-errors';
+import { createContact} from '../services/contacts.js';
 
 export const getContactsController = async (req, res) => {
     const contacts = await getAllcontacts();
@@ -15,16 +16,7 @@ export const getContactByIdController = async (req, res, next) => {
   const { contactId } = req.params;
   const contact = await getContactById(contactId);
 
-  // if (!contact) {
-  //   res.status(404).json({
-  //     message: 'Contact not found',
-  //   });
-  //   return;
-  // }
-
   if (!contact) {
-    // next(new Error('Contact not found'));
-    // return;  // обезательно, если ошибка останова исп. код
     throw createHttpError(404, 'Contact not found');
   }
 
@@ -35,4 +27,12 @@ export const getContactByIdController = async (req, res, next) => {
   });
 };
 
+export const createContactController  = async (req,res) => {
+  const contact = await createContact(req.body);
+  res.status(200).json({
+    status: 201,
+    message: `Successfully created a contact`,
+    data: contact,
+  });
+};
 

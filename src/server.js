@@ -27,11 +27,6 @@ export function setupServer() {
       },
     }),
   );
-
-  // app.get('/', (req, res) => {
-  //   res.send('API is running');
-  // });
-
  app.use('/contacts', contactsRouter);
 
  app.use('*', notFoundHandler);
