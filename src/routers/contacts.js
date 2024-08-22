@@ -20,7 +20,7 @@ const router = Router();
 router.get('/', ctrWrapper(getContactsController));
 router.get('/:contactId',isValidId, ctrWrapper(getContactByIdController));
 router.post(
-  '/',
+  '/register',
   validateBody(createContactSchema),
   ctrWrapper(createContactController),
 );
