@@ -3,6 +3,7 @@ import cors from 'cors';
 import express from 'express';
 import pino from 'pino-http';
 import dotenv from 'dotenv';
+import cookieParser from 'cookie-parser';
 
 //import contactsRouter from './routers/contacts.js'
 import router from './routers/index.js'
@@ -20,6 +21,7 @@ export function setupServer() {
 
  app.use(express.json());
   app.use(cors());
+  app.use(cookieParser());
 
   app.use(
     pino({
@@ -28,6 +30,8 @@ export function setupServer() {
       },
     }),
   );
+
+  
  app.use('/contacts', router);
 
  app.use(router);
