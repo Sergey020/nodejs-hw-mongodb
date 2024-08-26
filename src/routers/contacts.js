@@ -14,13 +14,14 @@ import {
 } from '../validation/contacts.js';
 import { isValidId } from '../middlewares/isValidId.js';
 import { ctrWrapper } from '../utils/ctrWrapper.js';
+import { authenticate } from '../middlewares/authenticate.js';
 
 const router = Router();
 
 router.get('/', ctrWrapper(getContactsController));
 router.get('/:contactId',isValidId, ctrWrapper(getContactByIdController));
 router.post(
-  '/register',
+  '/',
   validateBody(createContactSchema),
   ctrWrapper(createContactController),
 );
@@ -30,5 +31,9 @@ router.patch(
   ctrWrapper(pathContactController),
 );
 router.delete('/:contactId', ctrWrapper(deleteContactController));
+
+
+router.use(authenticate);
+router.get('/', ctrWrapper(getContactsController));
 
 export default router;

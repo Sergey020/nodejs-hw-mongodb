@@ -31,10 +31,8 @@ export function setupServer() {
     }),
   );
 
-  
- app.use('/contacts', router);
-
  app.use(router);
+ app.use('/contacts', router);
 
  app.use('*', notFoundHandler);
 
