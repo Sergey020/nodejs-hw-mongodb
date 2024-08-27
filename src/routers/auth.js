@@ -22,8 +22,10 @@ router.post(
   ctrWrapper(registerUserController),
 );
 
-export default router;
-
 router.post('/logout', ctrWrapper(logoutUserController));
 
 router.post('/refresh', ctrWrapper(refreshUserSessionController));
+
+export default router;
+
+

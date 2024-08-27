@@ -17,6 +17,7 @@ import { ctrWrapper } from '../utils/ctrWrapper.js';
 import { authenticate } from '../middlewares/authenticate.js';
 
 const router = Router();
+router.use(authenticate);
 
 router.get('/', ctrWrapper(getContactsController));
 router.get('/:contactId',isValidId, ctrWrapper(getContactByIdController));
@@ -31,9 +32,5 @@ router.patch(
   ctrWrapper(pathContactController),
 );
 router.delete('/:contactId', ctrWrapper(deleteContactController));
-
-
-router.use(authenticate);
-router.get('/', ctrWrapper(getContactsController));
 
 export default router;
