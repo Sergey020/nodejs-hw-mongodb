@@ -15,7 +15,7 @@ export const getContactsController = async (req, res) => {
 
   const { sortBy, sortOrder } = parseSortParams(req.query);
 
-  const filter = parseFilterParams(req.query);
+  const filter = { ...parseFilterParams(req.query), userId: req.user._id };
 
   const contacts = await getAllcontacts({
     page,
@@ -34,7 +34,7 @@ export const getContactsController = async (req, res) => {
 // eslint-disable-next-line no-unused-vars
 export const getContactByIdController = async (req, res, next) => {
   const { contactId } = req.params;
-  const contact = await getContactById(contactId);
+  const contact = await getContactById(contactId, req.user._id);
 
   if (!contact) {
     throw createHttpError(404, 'Contact not found');
@@ -48,7 +48,8 @@ export const getContactByIdController = async (req, res, next) => {
 };
 
 export const createContactController = async (req, res) => {
-  const contact = await createContact(req.body);
+  const contactData = { ...req.body, userId: req.user._id }; // додаємо userId до даних контакту
+  const contact = await createContact(contactData);
   res.status(200).json({
     status: 201,
     message: `Successfully created a contact`,
@@ -57,20 +58,9 @@ export const createContactController = async (req, res) => {
 };
 
 // eslint-disable-next-line no-unused-vars
-export const deleteContactController = async (req, res, next) => {
-  const { contactId } = req.params;
-  const contact = await deleteContact(contactId);
-
-  if (!contact) {
-    throw createHttpError(404, 'Contact not found');
-  }
-  res.status(202).send();
-};
-
-// eslint-disable-next-line no-unused-vars
 export const pathContactController = async (req, res, next) => {
   const { contactId } = req.params;
-  const contact = await updateContact(contactId, req.body);
+  const contact = await updateContact(contactId, req.user._id, req.body);
   if (!contact) {
     throw createHttpError(404, 'Contact not found');
   }
@@ -79,4 +69,15 @@ export const pathContactController = async (req, res, next) => {
     message: `Successfully patched a contact`,
     data: contact.contact,
   });
+};
+
+// eslint-disable-next-line no-unused-vars
+export const deleteContactController = async (req, res, next) => {
+  const { contactId } = req.params;
+  const contact = await deleteContact(contactId, req.user._id);
+
+  if (!contact) {
+    throw createHttpError(404, 'Contact not found');
+  }
+  res.status(202).send();
 };
