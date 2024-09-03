@@ -1,22 +1,26 @@
 //Створимо функцію в сервісі для створення користувача
 // npm i bcrypt add registerUser
-import {randomBytes} from "crypto";
+import { randomBytes } from 'crypto';
 import bcrypt from 'bcrypt';
 import { UsersCollection } from '../db/models/user.js';
 import createHttpError from 'http-errors';
 
-import { FIFTEEN_MINUTES, ONE_DAY, TEMPLATES_DIR } from "../constants/index.js";
-import { SessionsCollection } from "../db/models/session.js";
+import {
+  FIFTEEN_MINUTES,
+  ONE_DAY,
+  TEMP_UPLOAD_DIR,
+} from '../constants/index.js';
+import { SessionsCollection } from '../db/models/session.js';
 
-import jwt from "jsonwebtoken";
+import jwt from 'jsonwebtoken';
 
-import { SMTP } from "../constants/index.js";
-import { env } from "../utils/env.js";
-import { sendEmail } from "../utils/sendMail.js";
+import { SMTP } from '../constants/index.js';
+import { env } from '../utils/env.js';
+import { sendEmail } from '../utils/sendMail.js';
 
 import handlebars from 'handlebars';
-import path from "node:path";
-import fs from "node:fs/promises";
+import path from 'node:path';
+import fs from 'node:fs/promises';
 
 export const registerUser = async (payload) => {
   const user = await UsersCollection.findOne({ email: payload.email });
@@ -55,7 +59,7 @@ export const loginUser = async (payload) => {
 };
 
 export const logoutUser = async (sessionId) => {
-  await SessionsCollection.deleteOne({ _id: sessionId});
+  await SessionsCollection.deleteOne({ _id: sessionId });
 };
 
 //Створимо функцію в сервісі для refresh:
@@ -88,7 +92,7 @@ export const refreshUsersSession = async ({ sessionId, refreshToken }) => {
   if (isSessionTokenExpired) {
     throw createHttpError(401, 'Session token expired');
   }
-  
+
   const newSession = createSession();
 
   await SessionsCollection.deleteOne({ _id: sessionId, refreshToken });
@@ -115,18 +119,18 @@ export const requestResetToken = async (email) => {
     },
   );
   const resetPasswordTemplatePath = path.join(
-    TEMPLATES_DIR,
+    TEMP_UPLOAD_DIR,
     'reset-password-email.html',
   );
 
-const templateSource = (
+  const templateSource = (
     await fs.readFile(resetPasswordTemplatePath)
   ).toString();
 
   const template = handlebars.compile(templateSource);
   const html = template({
     name: user.name,
-    link: `${env('APP_DOMAIN')}/reset-password?token=${resetToken}`,
+    link: `${env('APP_DOMAIN')}/reset-pwd?token=${resetToken}`,
   });
 
   await sendEmail({
@@ -136,7 +140,6 @@ const templateSource = (
     html,
   });
 };
-
 
 export const resetPassword = async (payload) => {
   let entries;

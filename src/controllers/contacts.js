@@ -10,6 +10,8 @@ import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
 import { parseFilterParams } from '../utils/parseFilterParams.js';
 
+import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
+
 export const getContactsController = async (req, res) => {
   const { page, perPage } = parsePaginationParams(req.query);
 
@@ -23,6 +25,7 @@ export const getContactsController = async (req, res) => {
     sortBy,
     sortOrder,
     filter,
+    userId:req.user._id
   });
   res.json({
     status: 200,
@@ -57,17 +60,31 @@ export const createContactController = async (req, res) => {
   });
 };
 
-// eslint-disable-next-line no-unused-vars
+
 export const pathContactController = async (req, res, next) => {
+  console.log('Received body:', req.body);
+  console.log('Received file:', req.file);
+  
   const { contactId } = req.params;
-  const contact = await updateContact(contactId, req.user._id, req.body);
-  if (!contact) {
-    throw createHttpError(404, 'Contact not found');
+  const photo = req.file;
+
+  let photoUrl;
+  if (photo) {
+    photoUrl = await saveFileToUploadDir(photo);
+  }
+  const result = await updateContact(contactId, req.user._id, {
+    ...req.body,
+    photo: photoUrl,
+  });
+  //const contact = await updateContact(contactId, req.user._id, req.body);
+  if (!result) {
+    next (createHttpError(404, 'Contact not found'));
+    return;
   }
   res.json({
     status: 200,
     message: `Successfully patched a contact`,
-    data: contact.contact,
+    data: result.contact,
   });
 };
 
