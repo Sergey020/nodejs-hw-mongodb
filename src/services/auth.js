@@ -8,7 +8,7 @@ import createHttpError from 'http-errors';
 import {
   FIFTEEN_MINUTES,
   ONE_DAY,
-  TEMP_UPLOAD_DIR,
+  TEMPLATES_DIR,
 } from '../constants/index.js';
 import { SessionsCollection } from '../db/models/session.js';
 
@@ -119,7 +119,7 @@ export const requestResetToken = async (email) => {
     },
   );
   const resetPasswordTemplatePath = path.join(
-    TEMP_UPLOAD_DIR,
+    TEMPLATES_DIR,
     'reset-password-email.html',
   );
 
@@ -147,7 +147,7 @@ export const resetPassword = async (payload) => {
   try {
     entries = jwt.verify(payload.token, env('JWT_SECRET'));
   } catch (err) {
-    if (err instanceof Error) throw createHttpError(401, err.message);
+    if (err instanceof Error) throw createHttpError(401, 'Token is expired or invalid.');
     throw err;
   }
 
