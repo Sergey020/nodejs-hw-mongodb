@@ -27,7 +27,7 @@ export const getContactsController = async (req, res) => {
     sortBy,
     sortOrder,
     filter,
-    userId:req.user._id
+    userId: req.user._id,
   });
   res.json({
     status: 200,
@@ -53,7 +53,6 @@ export const getContactByIdController = async (req, res, next) => {
 };
 
 export const createContactController = async (req, res) => {
-
   const photo = req.file;
   let photoUrl;
 
@@ -65,8 +64,7 @@ export const createContactController = async (req, res) => {
     }
   }
 
-
-  const contactData = { ...req.body, userId: req.user._id, photo: photoUrl, }; // додаємо userId до даних контакту
+  const contactData = { ...req.body, userId: req.user._id, photo: photoUrl }; // додаємо userId до даних контакту
   const contact = await createContact(contactData);
   res.status(200).json({
     status: 201,
@@ -75,12 +73,11 @@ export const createContactController = async (req, res) => {
   });
 };
 
-
 // eslint-disable-next-line no-unused-vars
 export const pathContactController = async (req, res, next) => {
   console.log('Received body:', req.body);
   console.log('Received file:', req.file);
-  
+
   const { contactId } = req.params;
   const photo = req.file;
 
@@ -89,9 +86,9 @@ export const pathContactController = async (req, res, next) => {
     if (env('ENABLE_CLOUDINARY') === 'true') {
       photoUrl = await saveFileToCloudinary(photo);
     } else {
-    photoUrl = await saveFileToUploadDir(photo);
+      photoUrl = await saveFileToUploadDir(photo);
+    }
   }
-}
   const result = await updateContact(contactId, req.user._id, {
     ...req.body,
     photo: photoUrl,
