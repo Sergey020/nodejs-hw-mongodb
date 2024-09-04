@@ -18,15 +18,17 @@ import { resetPasswordController } from '../controllers/auth.js';
 const router = Router();
 
 router.post(
-  '/login',
-  validateBody(loginUserSchema),
-  ctrWrapper(loginUserController),
-);
-router.post(
   '/register',
   validateBody(registerUserSchema),
   ctrWrapper(registerUserController),
 );
+
+router.post(
+  '/login',
+  validateBody(loginUserSchema),
+  ctrWrapper(loginUserController),
+);
+
 
 router.post('/logout', ctrWrapper(logoutUserController));
 
