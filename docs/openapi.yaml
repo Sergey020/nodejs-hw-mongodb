@@ -5,11 +5,9 @@ info:
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-  description: 
+  description:
     This is a documentation of contacts app
-    tags:
-  - name: Contacts
-    description:  Operations about users.
+tags:
   - name: Auth
     description: Auth operations.
 servers:
@@ -19,12 +17,11 @@ paths:
   /contacts:
     get: 
       $ref: ../swagger/paths/contacts/get.yaml
-    post: 
+    post:
       $ref: ../swagger/paths/contacts/post.yaml
-  /contatcs/{id}:
-    get: 
-      $ref: #це спеціальний ключ в YAML файлах#
-        ../swagger/paths/contacts/{id}/get.yaml
+  /contacts/{contactId}:
+    get:
+      $ref: ../swagger/paths/contacts/{contactId}/get.yaml
 components:
   securitySchemes:
     bearerAuth:

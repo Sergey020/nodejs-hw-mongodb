@@ -7,7 +7,7 @@ security:
   - bearerAuth: []
 parameters:
   - in: path
-    name: id
+    name: contactId
     required: true
     schema:
       type: string
@@ -33,5 +33,25 @@ responses:
             data:
               type: object
               $ref: '../../../components/schemas/contact.yaml'
-  '404':
+  '401':
     $ref: '../../../components/responses/401.yaml'
+  '404':
+    description: 'Contact not found'
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 404
+            message:
+              type: string
+              example: 'Successfully with id 66995563aac8191253f0bfd8 not found'
+            data:
+              type: object
+              example: {}

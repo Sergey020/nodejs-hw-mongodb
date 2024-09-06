@@ -14,7 +14,7 @@ requestBody:
           - name
           - phoneNumber
           - contactType
-          - userId
+          - userId ##
         properties:
           name:
             description: "Contacts name"
