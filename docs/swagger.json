@@ -493,9 +493,8 @@
         }
       }
     },
-    "/auth/register": {
+    "/auth/get-oauth-url": {
       "get": {
-        "/auth/confirm-google-oauth": null,
         "tags": [
           "Auth"
         ],
@@ -536,8 +535,10 @@
           "400": {
             "description": "Bad Request"
           }
+          }
         }
       },
+      "/auth/confirm-google-oauth": {
       "post": {
         "tags": [
           "Auth"
