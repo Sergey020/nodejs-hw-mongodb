@@ -36,6 +36,7 @@ export function startServer() {
   app.use('/contacts', router);
 
   app.use('/uploads', express.static(UPLOAD_DIR));
+  
   app.use('/api-docs', swaggerDocs());
 
   app.use('*', notFoundHandler);

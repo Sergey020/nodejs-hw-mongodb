@@ -4,24 +4,35 @@ required:
   - name
   - phoneNumber
   - contactType
-  - photo
 properties:
   _id:
-    description: "Contacts id"
+    description: "Contact's id"
     type: string
     example: 65e4decdd286b30065d54af9
   name:
-    description: "Contact name"
+    description: "Contact's name"
     type: string
     example: 'John Doe'
   phoneNumber:
-    description: "Contacts phone number"
-    type: number
-    example: 12
+    description: "Contact's phone number"
+    type: string
+    example: +2 222 222 22 22
+  email:
+    description: Contact's email
+    type: string
+    example: name@gmail.com
+  isFavourite:
+    description: Favorite status
+    type: boolean
+    example: false  
   contactType:
     description: "Contacts type"
     type: string
     enum: ['home', 'work', 'personal']
+  userId:
+    description: Contact's user id
+    type: string
+    example: 65e4decdd286b30065d54af9  
   photo:
     description: "Link to contacts photo"
     type: string

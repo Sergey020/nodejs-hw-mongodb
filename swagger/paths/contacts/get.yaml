@@ -20,9 +20,16 @@ parameters:
     name: sortBy
     schema:
       type: string
-      example: 'name'
       enum: [ _id, name, phoneNumber, isFavourite, contactType ]
+      default: _id
     description: "Field by which to sort the contacts."
+  - in: query
+    name: contactType
+    schema:
+      type: string
+      enum: ['home', 'personal', 'work']
+      example: home
+    description: " Sort field. "
   - in: query
     name: sortOrder
     schema:
@@ -34,12 +41,7 @@ parameters:
     schema:
       type: boolean
       example: false
-  - in: query
-    name: contactType
-    schema:
-      type: string
-      enum: ['home', 'personal', 'work']
-      example: home
+    description: "Filter by favorite contacts."  
 responses:
   '200':
     description: Successfully found contacts!
@@ -93,3 +95,5 @@ responses:
                   example: true
   '401':
     $ref: '../../components/responses/401.yaml'
+  '500':
+    $ref: "../../components/responses/500.yaml"
