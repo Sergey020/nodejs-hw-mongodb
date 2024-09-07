@@ -12,7 +12,7 @@ tags:
     description: Auth operations.
 servers:
   - url: http://127.0.0.1:3000
-  - url: https://example.com/api/v1 #сылка на задеплоедный сайт
+  - url: https://contacts-app-0oqd.onrender.com #сылка на задеплоедный сайт
 paths:
   /contacts:
     get: 

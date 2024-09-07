@@ -14,7 +14,7 @@
       "url": "http://127.0.0.1:3000"
     },
     {
-      "url": "https://example.com/api/v1"
+      "url": "https://contacts-app-0oqd.onrender.com"
     }
   ],
   "tags": [
@@ -535,10 +535,10 @@
           "400": {
             "description": "Bad Request"
           }
-          }
         }
-      },
-      "/auth/confirm-google-oauth": {
+      }
+    },
+    "/auth/confirm-google-oauth": {
       "post": {
         "tags": [
           "Auth"
